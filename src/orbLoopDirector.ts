@@ -109,6 +109,9 @@ export function reduceOrbLoop(
       };
 
     case "ACTION_RESULT":
+      if (!state.actionsRunning.some(
+        (action) => action.id === event.actionId && action.status === "running",
+      )) return state;
       return {
         ...state,
         state: "RESULT",
@@ -119,6 +122,9 @@ export function reduceOrbLoop(
       };
 
     case "ACTION_FAILED":
+      if (!state.actionsRunning.some(
+        (action) => action.id === event.actionId && action.status === "running",
+      )) return state;
       return {
         ...state,
         state: "FAILED",
