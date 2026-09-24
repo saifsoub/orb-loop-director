@@ -65,6 +65,7 @@ The loop carries one compact state object across direct actions and agent handof
 type OrbLoopState = {
   sessionId: string;
   state: LoopState;
+  originalIntent?: string;
   intent?: string;
   currentContext: Record<string, unknown>;
   activeGoal?: string;
@@ -86,6 +87,6 @@ See:
 
 ## Design rule
 
-> User interaction is a steering signal, not the beginning of a new request.
+> User interaction is a steering signal, not the beginning of a new request. The original intent is immutable; steering may change the active intent and execution plan without rewriting why the loop started.
 
 The orb remains persistent. The right rail can expand and collapse, but the execution state survives that presentation change.
