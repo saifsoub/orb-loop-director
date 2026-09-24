@@ -38,6 +38,8 @@ export type OrbLoopState = {
   currentContext: Record<string, unknown>;
   activeGoal?: string;
   executionOwner?: string;
+  orbId?: string;
+  guestId?: string;
   actionsRunning: RunningAction[];
   evidence: EvidenceItem[];
   latestResult?: unknown;
@@ -45,6 +47,13 @@ export type OrbLoopState = {
   needsUserAuthority: boolean;
   nextAction?: string;
   revision: number;
+};
+
+export type OrbGuest = {
+  guestId: string;
+  orbId: string;
+  label: string;
+  role: string;
 };
 
 export type LoopEvent =
@@ -56,6 +65,7 @@ export type LoopEvent =
   | { type: "ACTION_FAILED"; actionId: string; error: unknown }
   | { type: "STEER"; instruction: string }
   | { type: "AUTHORITY_REQUIRED"; reason: string; nextAction?: string }
+  | { type: "ASSIGN_GUEST_ORB"; guest: OrbGuest }
   | { type: "CANCEL" };
 
 export function createOrbLoopState(sessionId: string): OrbLoopState {
@@ -157,6 +167,14 @@ export function reduceOrbLoop(
         needsUserAuthority: true,
         nextAction: event.nextAction,
         latestResult: event.reason,
+      };
+
+    case "ASSIGN_GUEST_ORB":
+      return {
+        ...state,
+        guestId: event.guest.guestId,
+        orbId: event.guest.orbId,
+        executionOwner: event.guest.role,
       };
 
     case "CANCEL":
