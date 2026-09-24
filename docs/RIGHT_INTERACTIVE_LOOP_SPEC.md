@@ -86,8 +86,9 @@ On steering:
 1. increment state revision
 2. mark obsolete actions cancelled/superseded
 3. preserve valid completed evidence/results
-4. update active goal or next action
-5. resume execution from the smallest affected point
+4. preserve `originalIntent` unchanged
+5. update active goal or next action
+6. resume execution from the smallest affected point
 
 ### CONTINUE / CLOSE
 Continue while executable work remains.
@@ -118,10 +119,11 @@ BLOCKED_AUTHORITY
 CANCELLED
 ```
 
-Important invariant:
+Important invariants:
 
 ```text
 STEER is reachable from every non-terminal active state.
+originalIntent is immutable after first capture.
 ```
 
 ## 4. State payload
@@ -162,6 +164,7 @@ type RunningAction = {
 type OrbLoopState = {
   sessionId: string;
   state: LoopState;
+  originalIntent?: string;
   intent?: string;
   currentContext: Record<string, unknown>;
   activeGoal?: string;
