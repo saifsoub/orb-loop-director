@@ -33,6 +33,7 @@ export type RunningAction = {
 export type OrbLoopState = {
   sessionId: string;
   state: LoopState;
+  originalIntent?: string;
   intent?: string;
   currentContext: Record<string, unknown>;
   activeGoal?: string;
@@ -82,6 +83,7 @@ export function reduceOrbLoop(
       return {
         ...state,
         state: "UNDERSTANDING",
+        originalIntent: state.originalIntent ?? input,
         intent: input,
         activeGoal: input,
         currentContext: {
