@@ -153,7 +153,7 @@ export function reduceOrbLoop(
         intent: event.instruction,
         activeGoal: event.instruction,
         actionsRunning: state.actionsRunning.map((action) =>
-          action.status === "running"
+          (action.status === "running" || action.status === "queued")
             ? { ...action, status: "superseded" }
             : action,
         ),
