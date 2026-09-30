@@ -100,6 +100,11 @@ export function reduceOrbLoop(
           ...state.currentContext,
           ...(event.context ?? {}),
         },
+        actionsRunning: state.actionsRunning.map((action) =>
+          action.status === "running" || action.status === "queued"
+            ? { ...action, status: "superseded" }
+            : action,
+        ),
         needsUserAuthority: false,
         revision: state.revision + 1,
       };
