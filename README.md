@@ -85,8 +85,4 @@ See:
 - `docs/RIGHT_INTERACTIVE_LOOP_SPEC.md` for the full process and UX contract.
 - `src/orbLoopDirector.ts` for a framework-neutral reference implementation.
 
-## Design rule
-
-> User interaction is a steering signal, not the beginning of a new request. The original intent is immutable; steering may change the active intent and execution plan without rewriting why the loop started.
-
-The orb remains persistent. The right rail can expand and collapse, but the execution state survives that presentation change.
+https://s-orb.grok.me 
